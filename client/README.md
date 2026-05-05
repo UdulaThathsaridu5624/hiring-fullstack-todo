@@ -1,75 +1,60 @@
-# React + TypeScript + Vite
+# Todo App - Client
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React frontend with TypeScript, Tailwind CSS and shadcn/ui.
 
-Currently, two official plugins are available:
+## Tech Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- React 18
+- TypeScript
+- Vite
+- Tailwind CSS
+- shadcn/ui
+- Axios
 
-## React Compiler
+## Setup
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+### Prerequisites
 
-Note: This will impact Vite dev & build performances.
+- Node.js v22+
+- Backend server running on `http://localhost:3000`
 
-## Expanding the ESLint configuration
+### Installation
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+cd client
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Environment Variables
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Create a `.env` file in the `/client` directory:
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
 ```
+VITE_API_URL=http://localhost:3000/api/todos
+```
+
+### Run in Development
+
+```bash
+npm run dev
+```
+
+Client runs on `http://localhost:5173`
+
+## Features
+
+- View all todos
+- Create a todo with title and optional description
+- Edit a todo inline
+- Toggle done status with optimistic updates
+- Delete a todo with fade-out animation and optimistic updates
+- Optimistic updates for all actions (add, edit, toggle, delete)
+- Form validation
+- Loading and error states
+- Smooth transitions on todo completion
+
+## Assumptions and Limitations
+
+- Requires the backend server to be running
+- No authentication
+- No pagination
