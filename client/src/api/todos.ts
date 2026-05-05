@@ -24,12 +24,12 @@ export const createTodo = async (title: string, description?: string): Promise<T
 }
 
 export const updateTodo = async (id: string, title: string, description?: string): Promise<Todo> => {
-  const { data } = await api.put(`/${id}`, { title, description })
+  const { data } = await api.put(`/${id}`, { title, description: description ?? null })
   return data
 }
 
 export const toggleDone = async (id: string): Promise<Todo> => {
-  const { data } = await api.patch(`/${id}/toggle`)
+  const { data } = await api.patch(`/${id}/done`)
   return data
 }
 

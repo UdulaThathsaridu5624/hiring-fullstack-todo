@@ -25,13 +25,28 @@ const useTodos = () =>{
     }
 
     const addTodo = async (title: string, description?: string) => {
-        const newTodo = await createTodo(title, description);
-        setTodos(prev => [newTodo, ...prev]);
+        const tempId = `temp-${Date.now()}`;
+        const tempTodo: Todo = { _id: tempId, title, description, done: false, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() };
+        setTodos(prev => [tempTodo, ...prev]);
+        try{
+            const newTodo = await createTodo(title, description);
+            setTodos(prev => prev.map(todo => todo._id === tempId ? newTodo : todo));
+        }catch{
+            setTodos(prev => prev.filter(todo => todo._id !== tempId));
+            setError("Failed to add todo");
+        }
     }
 
     const editTodo = async (id: string, title: string, description?: string) => {
-        const updated = await updateTodo(id, title, description);
-       setTodos(prev => prev.map(todos => todos._id === id ? updated : todos))
+        const previous = todos.find(todo => todo._id === id);
+        setTodos(prev => prev.map(todo => todo._id === id ? { ...todo, title, description } : todo));
+        try{
+            const updated = await updateTodo(id, title, description);
+            setTodos(prev => prev.map(todo => todo._id === id ? updated : todo));
+        }catch{
+            if(previous) setTodos(prev => prev.map(todo => todo._id === id ? previous : todo));
+            setError("Failed to edit todo");
+        }
     }
 
     const toggleTodo = async (id: string) => {
