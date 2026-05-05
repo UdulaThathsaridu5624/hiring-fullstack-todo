@@ -25,7 +25,7 @@ const TodoItem = ({ todo, onToggle, onDelete, onEdit }: TodoItemProps) => {
 
   if (isEditing) {
     return (
-      <Card className="mb-3 transition-all duration-200">
+      <Card className={`mb-3 transition-opacity duration-200 ${todo.done ? "opacity-50" : ""}`}>
         <CardContent className="pt-4 flex flex-col gap-3">
           <Input value={title} onChange={(e) => setTitle(e.target.value)} />
           <Input
@@ -51,7 +51,7 @@ const TodoItem = ({ todo, onToggle, onDelete, onEdit }: TodoItemProps) => {
 
   return (
     <Card
-      className={`mb-3 transition-all duration-200 ${todo.done ? "opacity-50" : ""}`}
+      className={`mb-3 transition-opacity duration-200 ${todo.done ? "opacity-50" : ""}`}
     >
       <CardContent className="pt-4 flex items-start gap-3">
         <Checkbox
@@ -61,7 +61,7 @@ const TodoItem = ({ todo, onToggle, onDelete, onEdit }: TodoItemProps) => {
         />
         <div className="flex-1">
           <p
-            className={`font-medium ${todo.done ? "line-through text-muted-foreground" : ""}`}
+            className={`font-medium transition-all duration-300 ${todo.done ? "line-through text-muted-foreground" : ""}`}
           >
             {todo.title}
           </p>
