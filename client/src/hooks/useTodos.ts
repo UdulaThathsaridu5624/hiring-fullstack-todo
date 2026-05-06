@@ -1,11 +1,21 @@
 import { useEffect, useState } from "react";
+import axios from "axios";
 import { createTodo, deleteTodo, getTodos, toggleDone, updateTodo, type Todo } from "../api/todos";
+
+const getErrorMessage = (err: unknown, fallback: string): string => {
+    if (axios.isAxiosError(err)) return err.response?.data?.message || fallback;
+    return fallback;
+}
 
 
 const useTodos = () =>{
     const [todos, setTodos] = useState<Todo[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
+
+    const showError = (message: string) => {
+        setError(message);
+    }
 
     useEffect(()=>{
         fetchTodos();
@@ -31,9 +41,9 @@ const useTodos = () =>{
         try{
             const newTodo = await createTodo(title, description);
             setTodos(prev => prev.map(todo => todo._id === tempId ? newTodo : todo));
-        }catch{
+        }catch(err){
             setTodos(prev => prev.filter(todo => todo._id !== tempId));
-            setError("Failed to add todo");
+            showError(getErrorMessage(err, "Failed to add todo"));
         }
     }
 
@@ -43,9 +53,9 @@ const useTodos = () =>{
         try{
             const updated = await updateTodo(id, title, description);
             setTodos(prev => prev.map(todo => todo._id === id ? updated : todo));
-        }catch{
+        }catch(err){
             if(previous) setTodos(prev => prev.map(todo => todo._id === id ? previous : todo));
-            setError("Failed to edit todo");
+            showError(getErrorMessage(err, "Failed to edit todo"));
         }
     }
 
@@ -53,9 +63,9 @@ const useTodos = () =>{
         setTodos(prev => prev.map(todo => todo._id === id ? {...todo, done: !todo.done} : todo));
         try{
             await toggleDone(id);
-        } catch {
+        } catch(err) {
             setTodos(prev => prev.map(todo => todo._id === id ? {...todo, done: !todo.done} : todo));
-            setError("Failed to toggle todo");
+            showError(getErrorMessage(err, "Failed to toggle todo"));
         }
     }
 
@@ -63,9 +73,9 @@ const useTodos = () =>{
         setTodos(prev => prev.filter(todo => todo._id !== id));
         try{
             await deleteTodo(id);
-        }catch{
+        }catch(err){
             fetchTodos();
-            setError("Failed to delete todo");
+            showError(getErrorMessage(err, "Failed to delete todo"));
         }
     }
 
