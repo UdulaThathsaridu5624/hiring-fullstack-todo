@@ -3,7 +3,10 @@ import axios from "axios";
 import { createTodo, deleteTodo, getTodos, toggleDone, updateTodo, type Todo } from "../api/todos";
 
 const getErrorMessage = (err: unknown, fallback: string): string => {
-    if (axios.isAxiosError(err)) return err.response?.data?.message || fallback;
+    if (axios.isAxiosError(err)) {
+        if (!err.response) return "Could not reach the server. Please check your connection.";
+        return err.response.data?.message || fallback;
+    }
     return fallback;
 }
 
