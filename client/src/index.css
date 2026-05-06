@@ -118,6 +118,15 @@
 }
 
 
+@keyframes fadeOut {
+  from { opacity: 1; transform: translateY(0); }
+  to { opacity: 0; transform: translateY(-12px); }
+}
+
+.todo-deleting {
+  animation: fadeOut 0.2s ease-in forwards;
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
