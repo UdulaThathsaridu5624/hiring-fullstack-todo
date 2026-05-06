@@ -57,4 +57,5 @@ Client runs on `http://localhost:5173`
 
 - Requires the backend server to be running
 - No authentication
+- No unit or integration tests
 - No pagination

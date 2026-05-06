@@ -61,5 +61,6 @@ Server runs on `http://localhost:5000`
 ## Assumptions and Limitations
 
 - No authentication — todos are shared across all users
+- No unit or integration tests
 - No pagination — all todos are returned in a single request
 - MongoDB Atlas is required (no local MongoDB setup instructions)
