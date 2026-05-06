@@ -4,27 +4,24 @@ import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 
 interface TodoFormProps {
-  onAdd: (title: string, description?: string) => Promise<void>;
+  onAdd: (title: string, description?: string) => void;
 }
 
 const TodoForm = ({ onAdd }: TodoFormProps) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [error, setError] = useState<string | null>(null);
-  const [isPending, setIsPending] = useState(false);
 
-  const handleSubmit = async (event: SyntheticEvent) => {
+  const handleSubmit = (event: SyntheticEvent) => {
     event.preventDefault();
     if (!title.trim()) {
       setError("Title is required");
       return;
     }
-    setIsPending(true);
-    await onAdd(title.trim(), description.trim() || undefined);
+    onAdd(title.trim(), description.trim() || undefined);
     setTitle("");
     setDescription("");
     setError(null);
-    setIsPending(false);
   };
 
   return (
@@ -42,7 +39,7 @@ const TodoForm = ({ onAdd }: TodoFormProps) => {
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
-          <Button type="submit" disabled={isPending}>Add Todo</Button>
+          <Button type="submit">Add Todo</Button>
         </form>
       </CardContent>
     </Card>
